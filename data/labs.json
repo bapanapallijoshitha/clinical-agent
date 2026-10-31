@@ -1,0 +1,10 @@
+{
+  "patient_id": "SYN-0042",
+  "panels": [
+    {
+      "panel": "Basic Metabolic Panel",
+      "date": "2026-08-20",
+      "results": {"sodium": 139, "potassium": 5.3, "creatinine": 1.3, "egfr": 58}
+    }
+  ]
+}

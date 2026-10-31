@@ -1,0 +1,50 @@
+[
+  {
+    "id": "g1",
+    "topic": "ACE inhibitor monitoring",
+    "keywords": ["ace inhibitor", "lisinopril", "potassium", "egfr", "creatinine", "renal"],
+    "text": "Patients on ACE inhibitors should have renal function and serum potassium monitored periodically. Hyperkalemia or a rising creatinine / falling eGFR warrants clinician review and possible dose reassessment; this is a monitoring flag, not grounds for an automated dosing decision."
+  },
+  {
+    "id": "g2",
+    "topic": "penicillin-class allergy documentation",
+    "keywords": ["penicillin", "amoxicillin", "allergy", "rash", "beta-lactam"],
+    "text": "A patient-reported reaction to any penicillin-class antibiotic (including amoxicillin) should be documented as a probable drug-class allergy pending formal allergy testing or clinician confirmation, and should not be assumed to generalize beyond the class without further evaluation."
+  },
+  {
+    "id": "g3",
+    "topic": "ACE inhibitor dizziness / orthostatic symptoms",
+    "keywords": ["dizziness", "dizzy", "lightheaded", "orthostatic", "blood pressure"],
+    "text": "Mild morning dizziness after starting an ACE inhibitor is a common early symptom often related to blood pressure changes; persistent or worsening symptoms warrant a blood pressure check and clinician follow-up rather than self-adjustment of the dose."
+  },
+  {
+    "id": "g4",
+    "topic": "metformin monitoring with renal changes",
+    "keywords": ["metformin", "egfr", "renal", "creatinine"],
+    "text": "Metformin dosing should be reviewed if eGFR declines significantly, as reduced renal clearance increases the risk of drug accumulation; this requires clinician assessment rather than automatic discontinuation."
+  },
+  {
+    "id": "g5",
+    "topic": "Warfarin & NSAID co-administration and bleeding risk",
+    "keywords": ["warfarin", "nsaid", "ibuprofen", "advil", "bleeding", "inr", "bruising", "epistaxis", "anticoagulation"],
+    "text": "Concomitant use of oral anticoagulants (Warfarin) with systemic NSAIDs (e.g. Ibuprofen) markedly elevates gastrointestinal and systemic bleeding risks via platelet inhibition, gastric mucosal injury, and potential INR potentiation. Supratherapeutic INR (>3.0) or active bleeding symptoms (epistaxis, hematoma) mandate immediate clinician evaluation."
+  },
+  {
+    "id": "g6",
+    "topic": "Severe beta-lactam anaphylaxis and cross-reactivity warnings",
+    "keywords": ["anaphylaxis", "penicillin", "augmentin", "amoxicillin", "cephalosporin", "cephalexin", "beta-lactam", "allergy"],
+    "text": "Patients with a documented history of severe IgE-mediated anaphylaxis to penicillins must NOT receive aminopenicillins (such as amoxicillin or Augmentin/amoxicillin-clavulanate). First-generation cephalosporins (e.g. cephalexin) share side-chain similarities and carry a documented cross-reactivity risk; antibiotic selection requires urgent clinician allergy review."
+  },
+  {
+    "id": "g7",
+    "topic": "SGLT2 inhibitor sick-day rules and acute kidney injury risk",
+    "keywords": ["sglt2", "empagliflozin", "jardiance", "dehydration", "vomiting", "egfr", "creatinine", "aki", "sick day", "hypotension"],
+    "text": "During acute dehydrating illness (e.g. gastroenteritis, severe vomiting, reduced oral intake), SGLT2 inhibitors (e.g. Empagliflozin) pose risks for volume depletion, acute kidney injury (AKI), and euglycemic diabetic ketoacidosis (euDKA). Practice guidelines advise clinician evaluation for temporary withholding during dehydrating illness."
+  },
+  {
+    "id": "g8",
+    "topic": "Autonomous agent safety and non-prescriptive documentation",
+    "keywords": ["prescribe", "diagnose", "discontinue", "dose", "guardrail", "recommendation", "clinician review", "safety"],
+    "text": "AI documentation assistants must strictly abstain from generating prescriptive commands (e.g. prescribing controlled substances, ordering dose modifications, diagnosing medical conditions, or discontinuing medications). All action items must be framed as recommendations for licensed clinician evaluation."
+  }
+]

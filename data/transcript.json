@@ -1,0 +1,17 @@
+{
+  "patient_id": "SYN-0042",
+  "visit_date": "2026-09-10",
+  "type": "follow_up_consultation",
+  "turns": [
+    {"speaker": "clinician", "text": "How have you been since starting the new blood pressure medication?"},
+    {"speaker": "patient", "text": "Okay I think, though I get a bit dizzy some mornings."},
+    {"speaker": "patient", "text": "Also I forgot to mention last time - I think I'm allergic to penicillin, I broke out in a rash as a kid."},
+    {"speaker": "clinician", "text": "Noted, I'll flag that. Any changes to your other medications?"},
+    {"speaker": "patient", "text": "No, still on the same metformin dose."}
+  ],
+  "late_update": {
+    "timestamp": "2026-09-10T15:40:00Z",
+    "source": "patient_portal_message",
+    "text": "Correction from patient: it was actually amoxicillin I reacted to as a kid, not penicillin in general. Sorry for the mix-up earlier."
+  }
+}

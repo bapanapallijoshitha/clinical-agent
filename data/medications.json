@@ -1,0 +1,7 @@
+{
+  "patient_id": "SYN-0042",
+  "active_medications": [
+    {"name": "Lisinopril", "dose": "10mg", "frequency": "once daily", "start_date": "2026-06-02"},
+    {"name": "Metformin", "dose": "500mg", "frequency": "twice daily", "start_date": "2024-01-15"}
+  ]
+}

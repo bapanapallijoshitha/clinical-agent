@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinical Documentation Agent | Multi-Scenario Test Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">✦</div>
+      <div>
+        <strong>CLINICAL AGENT STUDIO</strong>
+        <span>Autonomous Documentation & Multi-Way Testing Harness</span>
+      </div>
+    </div>
+    <div class="topbar-actions">
+      <button id="openInspectorBtn" class="pill-btn" title="Inspect patient EHR records, labs, and RAG guidelines">
+        <span class="icon">⊞</span> Data Inspector
+      </button>
+      <button id="openEditorBtn" class="pill-btn highlight" title="Create or edit custom consultation scenarios">
+        <span class="icon">✎</span> Custom Editor
+      </button>
+      <div class="system-status">
+        <span class="pulse"></span>
+        <span id="systemStatus">SYSTEM READY</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <div class="eyebrow">CLINICAL AGENT MULTI-WAY TEST HARNESS</div>
+        <h1>Test synthetic patient data across <span>multiple clinical scenarios.</span></h1>
+        <p>Switch between pre-built test cases, inspect underlying clinical charts and RAG guidelines, edit custom consultation dialogue, and evaluate guardrail and validation compliance in real time.</p>
+      </div>
+      <div class="hero-actions">
+        <button id="runBtn" class="primary" title="Execute the agent retrieval and drafting pipeline">
+          <span class="btn-icon">▶</span> Run Agent
+        </button>
+        <button id="updateBtn" class="secondary" disabled title="Incorporate late-arriving portal update into the finalized record">
+          <span class="btn-icon">↻</span> Simulate Late Update
+        </button>
+      </div>
+    </section>
+
+    <!-- Scenario Selector Bar -->
+    <section class="scenario-selector-container">
+      <div class="scenario-header">
+        <div class="scenario-title-area">
+          <span class="kicker">TEST SCENARIO SELECTOR</span>
+          <h2>Select a clinical condition or create a custom scenario</h2>
+        </div>
+        <div class="scenario-badge-status" id="activeScenarioBadge">SCENARIO 1</div>
+      </div>
+      <div class="scenario-pills" id="scenarioPills">
+        <!-- Rendered dynamically via JavaScript -->
+        <div class="pill-skeleton">Loading scenarios...</div>
+      </div>
+
+      <!-- Active Scenario Meta Banner -->
+      <div class="scenario-meta-card" id="scenarioMetaCard">
+        <div class="meta-col main">
+          <div class="meta-title" id="scenarioTitle">Loading scenario...</div>
+          <p class="meta-summary" id="scenarioSummary">—</p>
+        </div>
+        <div class="meta-col challenge">
+          <span class="meta-label">AGENT CHALLENGE</span>
+          <p id="scenarioChallenge">—</p>
+        </div>
+        <div class="meta-col tags">
+          <span class="meta-label">CLINICAL CLASSIFICATION</span>
+          <div class="tag-row">
+            <span class="tag-pill" id="scenarioCategory">—</span>
+            <span class="tag-pill accent" id="scenarioDifficulty">—</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Dashboard Grid -->
+    <section class="dashboard">
+      <!-- 01 Consultation Panel -->
+      <article class="panel consultation-panel">
+        <div class="panel-head">
+          <div>
+            <span class="kicker">01</span>
+            <h2>Consultation</h2>
+          </div>
+          <div class="panel-badges">
+            <button id="editTranscriptBtn" class="micro-btn" title="Edit this dialogue">Edit</button>
+            <span class="badge" id="patientBadge">SYNTHETIC</span>
+          </div>
+        </div>
+        <div class="patient-card">
+          <div class="avatar" id="patientAvatar">P1</div>
+          <div class="patient-details">
+            <strong id="patientId">SYN-0042</strong>
+            <span>Consultation Date: <span id="visitDate">2026-09-10</span></span>
+          </div>
+          <button id="quickChartBtn" class="chart-peek-btn" title="Quick view patient chart">Peek Chart</button>
+        </div>
+        <div class="transcript-wrapper" id="transcript">
+          <!-- Transcript turns rendered dynamically -->
+        </div>
+      </article>
+
+      <!-- 02 Operational Trace Panel -->
+      <article class="panel trace-panel">
+        <div class="panel-head">
+          <div>
+            <span class="kicker">02</span>
+            <h2>Agent Activity & Trace</h2>
+          </div>
+          <span id="traceState" class="live-badge">WAITING</span>
+        </div>
+        <div class="trace-toolbar">
+          <span class="trace-stat" id="toolCount">0 tool calls</span>
+          <span class="trace-stat" id="revisionCount">0 revisions</span>
+          <button id="clearTraceBtn" class="micro-btn" title="Clear trace messages">Clear</button>
+        </div>
+        <div class="trace" id="trace">
+          <div class="empty-state">
+            <div class="empty-icon">⚡</div>
+            <p>Click <strong>Run Agent</strong> to watch the orchestrator plan, conditionally call sandbox tools, and reconcile evidence.</p>
+          </div>
+        </div>
+        <div class="trace-note">
+          <span>Operational trace only — tool calls and deterministic validator logs are verified.</span>
+        </div>
+      </article>
+
+      <!-- 03 Clinical Record Panel -->
+      <article class="panel record-panel">
+        <div class="panel-head">
+          <div>
+            <span class="kicker">03</span>
+            <h2>Verified Clinical Record</h2>
+          </div>
+          <span id="validationBadge" class="validation neutral">NOT RUN</span>
+        </div>
+        <div class="record-toolbar">
+          <div class="export-actions">
+            <button id="exportSoapBtn" class="micro-btn" title="Export as Clinician SOAP Note (Markdown)" disabled>Export SOAP</button>
+            <button id="exportJsonBtn" class="micro-btn" title="Export raw record JSON" disabled>Export JSON</button>
+          </div>
+        </div>
+        <div id="record" class="record">
+          <div class="empty-state">
+            <div class="empty-icon">📋</div>
+            <p>The structured, non-prescriptive follow-up record will be generated and validated here.</p>
+          </div>
+        </div>
+        <div id="issues" class="issues hidden"></div>
+      </article>
+    </section>
+
+    <!-- Late Update Section -->
+    <section class="update-section hidden" id="updateSection">
+      <div class="update-card">
+        <div class="update-info">
+          <span class="kicker">PHASE 2: LATE-ARRIVING UPDATE</span>
+          <h2>New information modifies clinical context.</h2>
+          <p id="lateText">—</p>
+          <div class="late-meta" id="lateMeta">Source: Patient Portal</div>
+        </div>
+        <div class="update-arrow">→</div>
+        <div class="adapt-result">
+          <span id="adaptStatus">READY</span>
+          <strong>Targeted Adaptation & Re-validation</strong>
+          <small>Model updates only affected fields; appends reason log entries without altering audit integrity.</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- System Architecture Flow -->
+    <section class="architecture">
+      <div class="section-title">
+        <span class="kicker">WORKFLOW ARCHITECTURE</span>
+        <h2>How the agent verifies and validates clinical data</h2>
+      </div>
+      <div class="flow">
+        <div class="node">
+          <span>01</span>
+          <strong>Consultation</strong>
+          <small>Patient-clinician dialogue</small>
+        </div>
+        <i>→</i>
+        <div class="node accent">
+          <span>02</span>
+          <strong>Orchestrator</strong>
+          <small>Plans conditional tool calls</small>
+        </div>
+        <i>→</i>
+        <div class="node">
+          <span>03</span>
+          <strong>Evidence Sandbox</strong>
+          <small>Medications · Labs · Allergies · Notes</small>
+        </div>
+        <i>→</i>
+        <div class="node">
+          <span>04</span>
+          <strong>Guideline RAG</strong>
+          <small>Contextual safety monitoring</small>
+        </div>
+        <i>→</i>
+        <div class="node">
+          <span>05</span>
+          <strong>Rule Guardrail</strong>
+          <small>Strict non-prescriptive check</small>
+        </div>
+        <i>→</i>
+        <div class="node success">
+          <span>06</span>
+          <strong>Validated Record</strong>
+          <small>Ready for clinician review</small>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data Inspector Modal / Drawer -->
+    <div class="modal-overlay hidden" id="inspectorModal">
+      <div class="modal-dialog inspector-dialog">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="kicker">DATA INSPECTOR</span>
+            <h2>Patient EHR Records & Clinical Guideline Corpus</h2>
+            <p id="inspectorPatientLabel">Inspecting Patient: SYN-0042</p>
+          </div>
+          <div class="modal-actions">
+            <div class="inspector-tabs">
+              <button class="tab-btn active" data-tab="cardsTab">Clinical Cards</button>
+              <button class="tab-btn" data-tab="tableTab">EHR Table</button>
+              <button class="tab-btn" data-tab="jsonTab">Raw JSON</button>
+              <button class="tab-btn" data-tab="ragTab">RAG Guidelines</button>
+            </div>
+            <button class="close-btn" id="closeInspectorBtn" aria-label="Close Inspector">✕</button>
+          </div>
+        </div>
+
+        <div class="modal-body">
+          <!-- Tab 1: Clinical Cards View -->
+          <div class="tab-content active" id="cardsTab">
+            <div class="inspector-grid">
+              <!-- Medications Card -->
+              <div class="inspector-card">
+                <div class="card-head">
+                  <h3>Active Medications</h3>
+                  <span class="card-count" id="medsCount">0</span>
+                </div>
+                <div class="card-body" id="inspectorMedsList">
+                  <!-- Med items rendered here -->
+                </div>
+              </div>
+
+              <!-- Lab Panels Card -->
+              <div class="inspector-card">
+                <div class="card-head">
+                  <h3>Laboratory Panels</h3>
+                  <span class="card-count" id="labsCount">0</span>
+                </div>
+                <div class="card-body" id="inspectorLabsList">
+                  <!-- Lab panels rendered here -->
+                </div>
+              </div>
+
+              <!-- Allergies Card -->
+              <div class="inspector-card">
+                <div class="card-head">
+                  <h3>Documented Allergies</h3>
+                  <span class="card-count" id="allergiesCount">0</span>
+                </div>
+                <div class="card-body" id="inspectorAllergiesList">
+                  <!-- Allergies rendered here -->
+                </div>
+              </div>
+
+              <!-- Prior Notes Card -->
+              <div class="inspector-card">
+                <div class="card-head">
+                  <h3>Prior Clinical Notes</h3>
+                  <span class="card-count" id="notesCount">0</span>
+                </div>
+                <div class="card-body" id="inspectorNotesList">
+                  <!-- Prior notes rendered here -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab 2: Tabular EHR View -->
+          <div class="tab-content" id="tableTab">
+            <div class="table-container">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Domain</th>
+                    <th>Item / Test</th>
+                    <th>Value / Dose</th>
+                    <th>Reference / Status</th>
+                    <th>Clinical Warning / Note</th>
+                  </tr>
+                </thead>
+                <tbody id="inspectorTableBody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Tab 3: Raw JSON View -->
+          <div class="tab-content" id="jsonTab">
+            <div class="json-viewer-header">
+              <span>Full Synthetic Patient Chart Payload</span>
+              <button class="micro-btn" id="copyJsonBtn">Copy JSON</button>
+            </div>
+            <pre class="json-code" id="inspectorRawJson">{}</pre>
+          </div>
+
+          <!-- Tab 4: Guideline RAG Explorer Tab -->
+          <div class="tab-content" id="ragTab">
+            <div class="rag-search-bar">
+              <input type="text" id="ragQueryInput" placeholder="Test RAG search (e.g. 'warfarin bleeding', 'potassium', 'anaphylaxis', 'sglt2')..." />
+              <button class="primary" id="ragSearchBtn">Search Guidelines</button>
+            </div>
+            <div class="guidelines-list" id="guidelinesList">
+              <!-- Guidelines rendered dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Custom Scenario & Transcript Editor Modal -->
+    <div class="modal-overlay hidden" id="editorModal">
+      <div class="modal-dialog editor-dialog">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="kicker">INTERACTIVE TEST EDITOR</span>
+            <h2>Create or Modify Custom Clinical Input</h2>
+            <p>Customize doctor/patient dialogue and late updates to test how the orchestrator adapts.</p>
+          </div>
+          <button class="close-btn" id="closeEditorBtn" aria-label="Close Editor">✕</button>
+        </div>
+
+        <div class="modal-body editor-body">
+          <div class="editor-row">
+            <div class="editor-field">
+              <label for="editPatientId">Patient ID</label>
+              <input type="text" id="editPatientId" value="CUSTOM-001" />
+            </div>
+            <div class="editor-field">
+              <label for="editVisitDate">Visit Date</label>
+              <input type="date" id="editVisitDate" value="2026-10-25" />
+            </div>
+            <div class="editor-field">
+              <label for="editScenarioCategory">Category / Preset</label>
+              <select id="editPresetSelect">
+                <option value="custom">Blank Custom Input</option>
+                <option value="scenario-1">Clone Scenario 1 (Lisinopril / Potassium)</option>
+                <option value="scenario-2">Clone Scenario 2 (Warfarin / Ibuprofen)</option>
+                <option value="scenario-3">Clone Scenario 3 (Beta-Lactam Anaphylaxis)</option>
+                <option value="scenario-4">Clone Scenario 4 (SGLT2-i / AKI Alert)</option>
+                <option value="scenario-5">Clone Scenario 5 (Guardrail Stress Test)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="editor-section">
+            <div class="section-subhead">
+              <h3>Consultation Dialogue Turns</h3>
+              <div class="turn-add-actions">
+                <button id="addClinicianTurnBtn" class="micro-btn">+ Clinician Turn</button>
+                <button id="addPatientTurnBtn" class="micro-btn highlight">+ Patient Turn</button>
+              </div>
+            </div>
+            <div class="turn-editor-list" id="turnEditorList">
+              <!-- Editable turns rendered dynamically -->
+            </div>
+          </div>
+
+          <div class="editor-section">
+            <div class="section-subhead">
+              <h3>Late-Arriving Portal Update (Phase 2)</h3>
+            </div>
+            <div class="editor-field">
+              <textarea id="editLateUpdateText" rows="3" placeholder="Enter new information arriving after the consultation (e.g. allergy correction, symptom update, or lab result)..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button class="secondary" id="resetEditorBtn">Reset to Default</button>
+          <div class="footer-actions">
+            <button class="secondary" id="cancelEditorBtn">Cancel</button>
+            <button class="primary" id="applyAndRunCustomBtn">Apply &amp; Run Agent</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Export Report Modal -->
+    <div class="modal-overlay hidden" id="exportModal">
+      <div class="modal-dialog export-dialog">
+        <div class="modal-header">
+          <div class="modal-title-group">
+            <span class="kicker">TEST AUDIT EXPORT</span>
+            <h2 id="exportModalTitle">Export Report</h2>
+          </div>
+          <button class="close-btn" id="closeExportBtn" aria-label="Close Export">✕</button>
+        </div>
+        <div class="modal-body">
+          <pre class="json-code" id="exportContent"></pre>
+        </div>
+        <div class="modal-footer">
+          <button class="primary" id="copyExportBtn">Copy to Clipboard</button>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <span>Clinical Documentation Agent · Multi-Scenario Test Harness &amp; Benchmark Studio</span>
+      <small>AI output is designed for human clinician review, strictly complying with non-prescriptive clinical decision support standards.</small>
+    </footer>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>
