@@ -18,7 +18,7 @@ set GROQ_API_KEY=your_key_here          # Windows PowerShell / CMD
 uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 ```
 
-Open your browser at **[http://localhost:8000](http://localhost:8000)**.
+Open your browser at **[http://localhost:8000](https://clinical-agent-kaeu.onrender.com)**.
 
 ---
 
